@@ -1,0 +1,3 @@
+/mnt/155_16T/zhangbotao/jgaussian/StylizedGSjittor/scene/simple_knn/CMakeFiles/simpleknn.dir
+/mnt/155_16T/zhangbotao/jgaussian/StylizedGSjittor/scene/simple_knn/CMakeFiles/edit_cache.dir
+/mnt/155_16T/zhangbotao/jgaussian/StylizedGSjittor/scene/simple_knn/CMakeFiles/rebuild_cache.dir
