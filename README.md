@@ -10,7 +10,7 @@
     ·
     <a href="http://people.geometrylearning.com/yyj/">Yu-Jie Yuan</a>
     · 
-    <a herf="https://seancomeon.github.io/">Zhuoxun Chen</a>
+    <a href="https://seancomeon.github.io/">Zhuoxun Chen</a>
     ·
     <a href="https://people.wgtn.ac.nz/fanglue.zhang">Fang-Lue Zhang</a>
     ·
@@ -36,6 +36,7 @@ The pytorch version of StylizedGS is also available [here](https://github.com/Kr
 First, clone this repository to your local machine, and install the dependencies (jittor and other basic python package). 
 
 ```bash
+git clone https://github.com/Kristen-Z/StylizedGS-Jittor.git --recursive
 conda create -n stylizedgs python=3.10
 conda activate stylizedgs
 python3.10 -m pip install jittor

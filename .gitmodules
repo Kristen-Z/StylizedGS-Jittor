@@ -1,0 +1,3 @@
+[submodule "gaussian_renderer_new/diff_gaussian_rasterization/third_party/glm"]
+	path = gaussian_renderer_new/diff_gaussian_rasterization/third_party/glm
+	url = https://github.com/g-truc/glm.git
