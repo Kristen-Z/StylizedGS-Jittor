@@ -97,21 +97,12 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
     if args.second_style:
         style_img2 = imageio.imread(args.second_style, pilmode="RGB").astype(np.float32) / 255.0
         style_img2 = cv2.resize(style_img2, (style_img.shape[1],style_img.shape[0]), interpolation=cv2.INTER_AREA)
-        style_img2 = cv2.resize(
-            style_img2,
-            (style_img.shape[1], style_img.shape[0]),
-            interpolation=cv2.INTER_AREA,
-        )
         
         imageio.imwrite(
             os.path.join(args.model_path, "style_image2.jpg"),
             np.clip(style_img2 * 255.0, 0.0, 255.0).astype(np.uint8),
         )
         style_img2 = jt.array(style_img2)
-        style_mask = None
-    else:
-        style_mask = jt.array(np.load(os.path.join(args.model_path, 'mask.npy')))
-        style_img2 = None
 
 
     ic("Style image: ", args.style, style_img.shape)
@@ -144,7 +135,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
             depth_render = render(view, gaussians, pipe, background)["depth"]
             depth_img_list.append(depth_render)
 
-            select_mask = np.load(os.path.join(mask_dir, f'{i}.npy'))
+            select_mask = np.load(os.path.join(args.mask_dir, f'{view.image_name[:-4]}.npy'))
             select_mask = gaussian_filter(select_mask, sigma=1)
             
             mask_img_list.append(jt.array((cv2.resize(select_mask.astype(np.uint8), (scene.img_width, scene.img_height),interpolation=cv2.INTER_AREA)).astype(np.int8)))
@@ -212,7 +203,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         if iteration > first_iter + 200:
             set_geometry_grad(gaussians,False) # True -> Turn off the geo change
             style_img.stop_grad()
-            style_img2.stop_grad()
+            # style_img2.stop_grad()
             loss_dict = nnfm_loss_fn(
                 nn.interpolate(
                     pred_image,
@@ -232,8 +223,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
                     mode="bilinear",
                 ),
                 x_mask=mask_image,
-                s_mask=style_mask,
-                styles2=style_img2.permute(2,0,1).unsqueeze(0),
+                styles2=style_img2.permute(2,0,1).unsqueeze(0) if args.second_style else None,
             )
             loss_dict['nnfm_loss' if not args.preserve_color else 'lum_nnfm_loss'] *= args.style_weight
             loss_dict["content_loss"] *= args.content_weight

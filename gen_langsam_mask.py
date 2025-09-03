@@ -22,8 +22,8 @@ def main(image_dir, output_dir, text_prompt, scale, device):
 
         # Save the selected scale mask
         mask = results['masks'][scale].astype(np.uint8)
-        np.save(os.path.join(output_dir, f'{idx}.npy'), mask)
-        cv2.imwrite(os.path.join(output_dir, f'{idx}.jpg'), mask * 255)
+        np.save(os.path.join(output_dir, f'{img_name[:-4]}.npy'), mask)
+        cv2.imwrite(os.path.join(output_dir, f'{img_name[:-4]}.jpg'), mask * 255)
 
 
 
